@@ -1,0 +1,51 @@
+version: '3'
+volumes:
+  mysql:
+    driver:
+      local
+services:
+  nginx:
+    image: nginx:1.18.0-alpine
+    ports:
+      - "8080:80"
+    links:
+      - php-fpm:fpm
+    volumes:
+      - ./:/var/www/profit-margin
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+
+  php-fpm:
+    image: php:7.4.4-fpm
+    volumes:
+      - ./:/var/www/profit-margin
+      - ./php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      APP_ENV: dev
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: profit-margin
+      MYSQL_USER: profit-margin
+      MYSQL_PASSWORD: ProfitMargin123
+    ports:
+      - "9000:9000"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ProfitMargin123
+      MYSQL_DATABASE: profit-margin
+      MYSQL_USER: profit-margin
+      MYSQL_PASSWORD: ProfitMargin123
+    volumes:
+      - "./data/mysql:/docker-entrypoint-initdb.d"
+      - "mysql:/var/lib/mysql"
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis:6.0-alpine
+    volumes:
+      - "./data/redis:/data"
+    ports:
+    - "6379:6379"
