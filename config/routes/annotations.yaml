@@ -1,0 +1,7 @@
+products-controllers:
+    resource: ../../src/Products/Controllers/
+    type: annotation
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation

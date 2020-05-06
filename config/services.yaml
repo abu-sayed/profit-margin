@@ -17,10 +17,15 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
+    Products\Services\:
+        resource: '../src/Products/Services'
+
+    Products\Repositories\:
+        resource: '../src/Products/Repositories'
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
+    Products\Controllers\:
+        resource: '../src/Products/Controllers'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed

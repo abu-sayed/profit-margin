@@ -16,4 +16,4 @@ Profit margin
 ## Running unit tests
 Make sure the project is running. Then run the following command.
 
-`docker-compose exec app bash -c "php ./vendor/bin/phpunit ./src/"`
+`docker-compose exec php-fpm bash -c "php ./vendor/bin/phpunit ./src/"`
