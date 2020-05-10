@@ -17,3 +17,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Products'
                 prefix: 'Products\Entities'
                 alias: Products
+            Sales:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Sales'
+                prefix: 'Sales\Entities'
+                alias: Sales
+            Stocks:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Stocks'
+                prefix: 'Stocks\Entities'
+                alias: Stocks
+            Users:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Users'
+                prefix: 'Users\Entities'
+                alias: Users

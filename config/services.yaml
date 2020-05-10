@@ -16,17 +16,39 @@ services:
     App\:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
     Products\Services\:
         resource: '../src/Products/Services'
-
     Products\Repositories\:
         resource: '../src/Products/Repositories'
+    Sales\Services\:
+        resource: '../src/Sales/Services'
+    Sales\Repositories\:
+        resource: '../src/Sales/Repositories'
+    Stocks\Services\:
+        resource: '../src/Stocks/Services'
+    Stocks\Repositories\:
+        resource: '../src/Stocks/Repositories'
+    Users\Services\:
+        resource: '../src/Users/Services'
+    Users\Repositories\:
+        resource: '../src/Users/Repositories'
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
+
+    Application\Controllers\:
+        resource: '../src/Application/Controllers'
+        tags: ['controller.service_arguments']
     Products\Controllers\:
         resource: '../src/Products/Controllers'
         tags: ['controller.service_arguments']
-
+    Sales\Controllers\:
+        resource: '../src/Sales/Controllers'
+        tags: ['controller.service_arguments']
+    Stocks\Controllers\:
+        resource: '../src/Stocks/Controllers'
+        tags: ['controller.service_arguments']
+    Users\Controllers\:
+        resource: '../src/Users/Controllers'
+        tags: ['controller.service_arguments']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

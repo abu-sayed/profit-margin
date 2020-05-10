@@ -1,3 +1,0 @@
-# show_product:
-#    path: /products/{id}
-#    controller: App\Controller\ProductController::show

@@ -1,7 +1,18 @@
+application-controllers:
+    resource: ../../src/Application/Controllers/
+    type: annotation
 products-controllers:
     resource: ../../src/Products/Controllers/
     type: annotation
-
+sales-controllers:
+    resource: ../../src/Sales/Controllers/
+    type: annotation
+stocks-controllers:
+    resource: ../../src/Stocks/Controllers/
+    type: annotation
+users-controllers:
+    resource: ../../src/Users/Controllers/
+    type: annotation
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

@@ -1,6 +1,6 @@
 <?php
 
-namespace Products\Controllers;
+namespace Stocks\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -8,47 +8,47 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Products\Services\ProductService;
-use Products\Entities\Product;
+use Stocks\Services\StockService;
+use Stocks\Entities\Stock;
 use Application\Services\ErrorMessageService;
 
 /**
- * @Route("/api/products")
+ * @Route("/api/stocks")
  */
-class ProductController extends AbstractController
+class StockController extends AbstractController
 {
 
-    private $productService;
+    private $stockService;
     private $validator;
     private $serializer;
 
-    public function __construct(ProductService $productService, ValidatorInterface $validator, SerializerInterface $serializer)
+    public function __construct(StockService $stockService, ValidatorInterface $validator, SerializerInterface $serializer)
     {
-        $this->productService = $productService;
-        $this->validator      = $validator;
-        $this->serializer     =  $serializer;
+        $this->stockService = $stockService;
+        $this->validator   = $validator;
+        $this->serializer  =  $serializer;
     }
 
     /**
-     * @Route("/", name="product_list", methods={"GET"})
+     * @Route("/", name="sale_list", methods={"GET"})
      */
     public function findAll()
     {
-        $products = $this->productService->findAll();
-        return $this->json($products);
+        $stocks = $this->stockService->findAll();
+        return $this->json($stocks);
     }
 
     /**
-     * @Route("/{id}", name="product_get", methods={"GET"})
+     * @Route("/{id}", name="sale_get", methods={"GET"})
      */
     public function find(int $id)
     {
-        $product = $this->productService->find($id);
-        return $this->json($product);
+        $stock = $this->stockService->find($id);
+        return $this->json($stock);
     }
 
     /**
-     * @Route("", name="product_create", methods={"POST"})
+     * @Route("", name="sale_create", methods={"POST"})
      */
     public function create(Request $request)
     {
@@ -58,7 +58,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}", name="product_update", methods={"PUT"})
      */
-    public function update(Product $product, Request $request)
+    public function update(Stock $stock, Request $request)
     {
         return $this->save($request);
     }
@@ -66,22 +66,22 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}", name="product_delete", methods={"DELETE"})
      */
-    public function remove(Product $product)
+    public function remove(Stock $stock)
     {
-        $product = $this->productService->remove($product);
-        return $this->json($product);
+        $stock = $this->stockService->remove($stock);
+        return $this->json($stock);
     }
     
     private function save (Request $request)
     {
         try {
-            $product = $this->serializer->deserialize($request->getContent(), Product::class, 'json');
-            $errors  = $this->validator->validate($product);
+            $stock = $this->serializer->deserialize($request->getContent(), Stock::class, 'json');
+            $errors  = $this->validator->validate($stock);
             if (count($errors) > 0) {
                 return $this->json($errors, 400);
             }
-            $product = $this->productService->save($product);
-            return $this->json($product);
+            $stock = $this->stockService->save($stock);
+            return $this->json($stock);
         } catch (NotEncodableValueException $exception) {
             return $this->json($exception->getMessage(), 400);
         } catch (\Exception $exception) {

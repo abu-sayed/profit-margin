@@ -1,6 +1,6 @@
 <?php
 
-namespace Products\Controllers;
+namespace Users\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -8,47 +8,47 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Products\Services\ProductService;
-use Products\Entities\Product;
+use Users\Services\UserService;
+use Users\Entities\User;
 use Application\Services\ErrorMessageService;
 
 /**
- * @Route("/api/products")
+ * @Route("/api/users")
  */
-class ProductController extends AbstractController
+class UserController extends AbstractController
 {
 
-    private $productService;
+    private $userService;
     private $validator;
     private $serializer;
 
-    public function __construct(ProductService $productService, ValidatorInterface $validator, SerializerInterface $serializer)
+    public function __construct(UserService $userService, ValidatorInterface $validator, SerializerInterface $serializer)
     {
-        $this->productService = $productService;
+        $this->userService = $userService;
         $this->validator      = $validator;
         $this->serializer     =  $serializer;
     }
 
     /**
-     * @Route("/", name="product_list", methods={"GET"})
+     * @Route("/", name="user_list", methods={"GET"})
      */
     public function findAll()
     {
-        $products = $this->productService->findAll();
-        return $this->json($products);
+        $users = $this->userService->findAll();
+        return $this->json($users);
     }
 
     /**
-     * @Route("/{id}", name="product_get", methods={"GET"})
+     * @Route("/{id}", name="user_get", methods={"GET"})
      */
     public function find(int $id)
     {
-        $product = $this->productService->find($id);
-        return $this->json($product);
+        $user = $this->userService->find($id);
+        return $this->json($user);
     }
 
     /**
-     * @Route("", name="product_create", methods={"POST"})
+     * @Route("", name="user_create", methods={"POST"})
      */
     public function create(Request $request)
     {
@@ -56,32 +56,32 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_update", methods={"PUT"})
+     * @Route("/{id}", name="user_update", methods={"PUT"})
      */
-    public function update(Product $product, Request $request)
+    public function update(User $user, Request $request)
     {
         return $this->save($request);
     }
 
     /**
-     * @Route("/{id}", name="product_delete", methods={"DELETE"})
+     * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function remove(Product $product)
+    public function remove(User $user)
     {
-        $product = $this->productService->remove($product);
-        return $this->json($product);
+        $user = $this->userService->remove($user);
+        return $this->json($user);
     }
     
     private function save (Request $request)
     {
         try {
-            $product = $this->serializer->deserialize($request->getContent(), Product::class, 'json');
-            $errors  = $this->validator->validate($product);
+            $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
+            $errors  = $this->validator->validate($user);
             if (count($errors) > 0) {
                 return $this->json($errors, 400);
             }
-            $product = $this->productService->save($product);
-            return $this->json($product);
+            $user = $this->userService->save($user);
+            return $this->json($user);
         } catch (NotEncodableValueException $exception) {
             return $this->json($exception->getMessage(), 400);
         } catch (\Exception $exception) {

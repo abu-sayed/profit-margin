@@ -3,11 +3,12 @@
 namespace Products\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Products\Repositories\ProductRepository")
  */
-class Product implements \JsonSerializable
+class Product
 {
     /**
      * @ORM\Id()
@@ -18,6 +19,7 @@ class Product implements \JsonSerializable
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -36,10 +38,5 @@ class Product implements \JsonSerializable
         $this->name = $name;
 
         return $this;
-    }
-
-    public function jsonSerialize()
-    {
-        return get_object_vars($this);
     }
 }
